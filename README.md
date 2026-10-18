@@ -18,7 +18,6 @@ chikungunya_ml_project/
 │   ├── clean_data.py           # Filtra internados com desfecho conhecido (todos os anos)
 │   ├── treat_data.py           # Feature engineering + construção do alvo (dataset único)
 │   └── split_data.py           # Split temporal: treino 2020-2023 / teste 2024 / validação 2025
-├── docs/                       # Documentação de apoio (ex.: revisão bibliográfica de features)
 └── notebooks/
     ├── 01_diagnostico/          # Qualidade de datas e padrão de preenchimento das fichas
     ├── 02_models/                # Um notebook por algoritmo (treino + tuning + avaliação)

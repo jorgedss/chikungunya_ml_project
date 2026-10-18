@@ -1,5 +1,6 @@
 data/
 output/
+docs/
 .venv/
 __pycache__/
 *.pyc

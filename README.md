@@ -20,7 +20,7 @@ chikungunya_ml_project/
 │   └── split_data.py           # Split temporal: treino 2020-2023 / teste 2024 / validação 2025
 └── notebooks/
     ├── 01_diagnostico/          # Qualidade de datas e padrão de preenchimento das fichas
-    ├── 02_models/                # Um notebook por algoritmo (treino + tuning + avaliação)
+    ├── 02_models/                # Treino e avaliação dos 5 algoritmos num único fluxo comparável
     ├── 03_evaluation/            # Comparação, bootstrap (IC 95%), calibração, validação 2025
     ├── 04_interpretation/        # Importância das variáveis (5 modelos)
     └── 05_fairness/              # Análise de equidade estratificada
@@ -52,11 +52,12 @@ Etapas (também executáveis individualmente):
 
 - **01_diagnostico/** — qualidade e consistência das datas, diagnóstico de ausência de
   dados por campo e por desfecho, e padrão de preenchimento por bloco da ficha.
-- **02_models/** — cada notebook contém o fluxo completo de um modelo: carregamento,
-  pré-processamento, validação temporal (*expanding window*), otimização de
-  hiperparâmetros (GridSearchCV), treino final e avaliação.
-- **03_evaluation/** — comparação dos modelos (baseline 2024), bootstrap para intervalos
-  de confiança 95%, calibração (Brier Score/BSS) e validação externa no ano de 2025.
+- **02_models/** — um único notebook treina e avalia os 5 algoritmos (Regressão Logística,
+  CART, Random Forest, XGBoost, LightGBM) lado a lado: pré-processamento, validação temporal
+  (*expanding window*), otimização de hiperparâmetros (GridSearchCV), treino final e avaliação.
+- **03_evaluation/** — um notebook por tipo de análise, cobrindo os 5 modelos: comparação e
+  bootstrap para intervalos de confiança 95%, calibração (Brier Score/BSS), e validação
+  externa no ano de 2025.
 - **04_interpretation/** — importância das variáveis dos cinco modelos: MDI/ganho para os
   modelos de árvore e coeficientes/razões de chances para a Regressão Logística.
 - **05_fairness/** — análise de equidade estratificada (ΔAUPRC entre subgrupos).

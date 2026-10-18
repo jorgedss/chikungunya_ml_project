@@ -44,7 +44,7 @@ Etapas (também executáveis individualmente):
 1. `utils/download_data.py` → `data/raw/chik_{ano}.parquet`
 2. `utils/clean_data.py` → `data/raw/chik_hospitalized.parquet`
 3. `utils/treat_data.py` → `data/processed/chik_treated.parquet`
-4. `utils/split_data.py` → `data/features/baseline/{X,y}_{train,test}.parquet`
+4. `utils/split_data.py` → `data/features/baseline/{X,y}_{train,test,val2025}.parquet`
 
 > Os diretórios `data/` e `output/` não são versionados; são regenerados pela execução
 > do pipeline e dos notebooks.

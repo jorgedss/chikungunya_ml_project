@@ -53,8 +53,9 @@ Etapas (também executáveis individualmente):
 - **01_diagnostico/** — qualidade e consistência das datas, diagnóstico de ausência de
   dados por campo e por desfecho, e padrão de preenchimento por bloco da ficha.
 - **02_models/** — um único notebook treina e avalia os 5 algoritmos (Regressão Logística,
-  CART, Random Forest, XGBoost, LightGBM) lado a lado: pré-processamento, validação temporal
-  (*expanding window*), otimização de hiperparâmetros (GridSearchCV), treino final e avaliação.
+  Árvore de Decisão, Random Forest, XGBoost, LightGBM) lado a lado: pré-processamento,
+  validação temporal (*expanding window*), otimização de hiperparâmetros (GridSearchCV),
+  treino final e avaliação.
 - **03_evaluation/** — um notebook por tipo de análise, cobrindo os 5 modelos: comparação e
   bootstrap para intervalos de confiança 95%, calibração (Brier Score/BSS), e validação
   externa no ano de 2025.

@@ -1,9 +1,10 @@
 """Feature engineering e construção do alvo binário para o dataset de chikungunya.
 
-A partir de `data/raw/chik_hospitalized.parquet`, decodifica a idade (`NU_IDADE_N`) e a
-semana epidemiológica de início de sintomas (`SEM_PRI`) para formatos numéricos
-utilizáveis por modelos, deriva o tempo entre início de sintomas e notificação, e
-constrói o alvo binário `obito` (`EVOLUCAO == "2"`). O dataset tratado único, com a
+A partir de `data/raw/chik_hospitalized.parquet`, decodifica a idade (`NU_IDADE_N`), a
+semana epidemiológica de início de sintomas (`SEM_PRI`) e a UF de residência (`SG_UF`,
+agregada em macrorregião, para reduzir a cardinalidade de 27 UFs para 5 regiões) para
+formatos utilizáveis por modelos, deriva o tempo entre início de sintomas e notificação,
+e constrói o alvo binário `obito` (`EVOLUCAO == "2"`). O dataset tratado único, com a
 coluna `year` preservada, é salvo em `data/processed/chik_treated.parquet`.
 """
 
@@ -41,6 +42,22 @@ def decodificar_semana_epidemiologica(serie_sem_pri: pd.Series) -> pd.Series:
     return semana
 
 
+MACRORREGIAO_POR_UF = {
+    "11": "Norte", "12": "Norte", "13": "Norte", "14": "Norte",
+    "15": "Norte", "16": "Norte", "17": "Norte",
+    "21": "Nordeste", "22": "Nordeste", "23": "Nordeste", "24": "Nordeste",
+    "25": "Nordeste", "26": "Nordeste", "27": "Nordeste", "28": "Nordeste", "29": "Nordeste",
+    "31": "Sudeste", "32": "Sudeste", "33": "Sudeste", "35": "Sudeste",
+    "41": "Sul", "42": "Sul", "43": "Sul",
+    "50": "Centro-Oeste", "51": "Centro-Oeste", "52": "Centro-Oeste", "53": "Centro-Oeste",
+}
+
+
+def decodificar_macrorregiao(serie_sg_uf: pd.Series) -> pd.Series:
+    serie_sg_uf = serie_sg_uf.astype(str).str.strip()
+    return serie_sg_uf.map(MACRORREGIAO_POR_UF)
+
+
 def calcular_tempo_sintoma_notificacao(df: pd.DataFrame) -> pd.Series:
     dt_sin_pri = pd.to_datetime(df["DT_SIN_PRI"], format="%Y%m%d", errors="coerce")
     dt_notific = pd.to_datetime(df["DT_NOTIFIC"], format="%Y%m%d", errors="coerce")
@@ -63,14 +80,17 @@ def main() -> None:
     print(f"Registros com idade implausível (> {IDADE_MAXIMA_PLAUSIVEL} anos) marcados como ausentes: {registros_idade_invalida}")
     df["SEMANA_EPI_SIN_PRI"] = decodificar_semana_epidemiologica(df["SEM_PRI"])
     df["TEMPO_SINTOMA_NOTIFICACAO"] = calcular_tempo_sintoma_notificacao(df)
-    df = df.drop(columns=["NU_IDADE_N", "SEM_PRI"])
+    df["MACRORREGIAO"] = decodificar_macrorregiao(df["SG_UF"])
+    registros_uf_nao_mapeada = df["MACRORREGIAO"].isna().sum()
+    print(f"Registros com SG_UF nao mapeada para macrorregiao: {registros_uf_nao_mapeada}")
+    df = df.drop(columns=["NU_IDADE_N", "SEM_PRI", "SG_UF"])
 
     colunas_categoricas = [
         "CS_SEXO",
         "CS_GESTANT",
         "CS_RACA",
         "CS_ESCOL_N",
-        "SG_UF",
+        "MACRORREGIAO",
         "FEBRE",
         "MIALGIA",
         "CEFALEIA",

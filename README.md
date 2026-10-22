@@ -18,9 +18,9 @@ chikungunya_ml_project/
 │   ├── clean_data.py           # Filtra internados com desfecho conhecido (todos os anos)
 │   ├── treat_data.py           # Feature engineering + construção do alvo (dataset único)
 │   ├── split_data.py           # Split temporal: treino 2020-2023 / teste 2024 / validação 2025
-│   └── preprocessamento.py     # Funções compartilhadas pelos notebooks de modelagem
+│   └── preprocessing.py        # Funções compartilhadas pelos notebooks de modelagem
 └── notebooks/
-    ├── 01_diagnostico/          # Qualidade de datas e padrão de preenchimento das fichas
+    ├── 01_diagnostics/          # Qualidade de datas e padrão de preenchimento das fichas
     ├── 02_models/                # Treino e avaliação dos 5 algoritmos num único fluxo comparável
     ├── 03_evaluation/            # Comparação, bootstrap (IC 95%), calibração, validação 2025
     ├── 04_interpretation/        # Importância das variáveis (5 modelos)
@@ -51,7 +51,7 @@ Etapas (também executáveis individualmente):
 
 ## Notebooks
 
-- **01_diagnostico/** — qualidade e consistência das datas, diagnóstico de ausência de
+- **01_diagnostics/** — qualidade e consistência das datas, diagnóstico de ausência de
   dados por campo e por desfecho, e padrão de preenchimento por bloco da ficha.
 - **02_models/** — um único notebook treina e avalia os 5 algoritmos (Regressão Logística,
   Árvore de Decisão, Random Forest, XGBoost, LightGBM) lado a lado: pré-processamento,

@@ -3,9 +3,13 @@
 A partir de `data/raw/chik_hospitalized.parquet`, decodifica a idade (`NU_IDADE_N`), a
 semana epidemiológica de início de sintomas (`SEM_PRI`) e a UF de residência (`SG_UF`,
 agregada em macrorregião, para reduzir a cardinalidade de 27 UFs para 5 regiões) para
-formatos utilizáveis por modelos, deriva o tempo entre início de sintomas e notificação,
-e constrói o alvo binário `obito` (`EVOLUCAO == "2"`). O dataset tratado único, com a
-coluna `year` preservada, é salvo em `data/processed/chik_treated.parquet`.
+formatos utilizáveis por modelos, e constrói o alvo binário `obito` (`EVOLUCAO == "2"`).
+As colunas de data (`DT_SIN_PRI`, `DT_NOTIFIC` e as demais) permanecem como metadado,
+sem gerar nenhuma feature derivada de intervalo de tempo: `DT_NOTIFIC` pode ser posterior
+a `DT_OBITO` numa fração relevante dos óbitos, por atraso no fluxo de investigação de
+óbito do SINAN, o que tornaria qualquer feature baseada nesse intervalo um vazamento de
+informação sobre o próprio desfecho. O dataset tratado único, com a coluna `year`
+preservada, é salvo em `data/processed/chik_treated.parquet`.
 """
 
 from pathlib import Path
@@ -58,13 +62,6 @@ def decodificar_macrorregiao(serie_sg_uf: pd.Series) -> pd.Series:
     return serie_sg_uf.map(MACRORREGIAO_POR_UF)
 
 
-def calcular_tempo_sintoma_notificacao(df: pd.DataFrame) -> pd.Series:
-    dt_sin_pri = pd.to_datetime(df["DT_SIN_PRI"], format="%Y%m%d", errors="coerce")
-    dt_notific = pd.to_datetime(df["DT_NOTIFIC"], format="%Y%m%d", errors="coerce")
-    tempo_dias = (dt_notific - dt_sin_pri).dt.days
-    return tempo_dias
-
-
 def normalizar_ausentes(df: pd.DataFrame, colunas: list[str]) -> pd.DataFrame:
     for coluna in colunas:
         df[coluna] = df[coluna].replace("", pd.NA)
@@ -79,7 +76,6 @@ def main() -> None:
     registros_idade_invalida = df["IDADE_ANOS"].isna().sum()
     print(f"Registros com idade implausível (> {IDADE_MAXIMA_PLAUSIVEL} anos) marcados como ausentes: {registros_idade_invalida}")
     df["SEMANA_EPI_SIN_PRI"] = decodificar_semana_epidemiologica(df["SEM_PRI"])
-    df["TEMPO_SINTOMA_NOTIFICACAO"] = calcular_tempo_sintoma_notificacao(df)
     df["MACRORREGIAO"] = decodificar_macrorregiao(df["SG_UF"])
     registros_uf_nao_mapeada = df["MACRORREGIAO"].isna().sum()
     print(f"Registros com SG_UF nao mapeada para macrorregiao: {registros_uf_nao_mapeada}")
@@ -120,8 +116,6 @@ def main() -> None:
 
     print("Estatísticas de IDADE_ANOS:")
     print(df["IDADE_ANOS"].describe())
-    print("Estatísticas de TEMPO_SINTOMA_NOTIFICACAO (dias):")
-    print(df["TEMPO_SINTOMA_NOTIFICACAO"].describe())
 
     df["obito"] = (df["EVOLUCAO"] == "2").astype(int)
 

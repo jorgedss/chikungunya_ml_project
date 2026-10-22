@@ -18,7 +18,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 COLUNA_ALVO = "obito"
-COLUNAS_NUMERICAS = ["IDADE_ANOS", "SEMANA_EPI_SIN_PRI", "TEMPO_SINTOMA_NOTIFICACAO"]
+COLUNAS_NUMERICAS = ["IDADE_ANOS", "SEMANA_EPI_SIN_PRI"]
 ANOS_TREINO = [2020, 2021, 2022, 2023]
 ANOS_VALIDACAO_EXPANDING_WINDOW = [2021, 2022, 2023]
 

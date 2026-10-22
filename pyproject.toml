@@ -6,7 +6,6 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "ipykernel>=7.2.0",
-    "jinja2>=3.1.6",
     "joblib>=1.4.0",
     "lightgbm==4.6.0",
     "matplotlib>=3.10.9",
@@ -16,6 +15,5 @@ dependencies = [
     "pysus[datasus]==1.0.1",
     "scikit-learn==1.8.0",
     "scipy==1.17.1",
-    "seaborn>=0.13.2",
     "xgboost==3.2.0",
 ]

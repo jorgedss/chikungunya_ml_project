@@ -6,9 +6,9 @@ laboratorial/clínica de chikungunya) e consolida todos os anos num único parqu
 `data/raw/chik_hospitalized.parquet`.
 
 `FEATURES` é a lista de preditores usada a partir daqui em todo o pipeline, definida com
-base no dicionário de dados real da ficha de notificação de chikungunya do SINAN e na
-revisão bibliográfica do projeto (`docs/revisao_bibliografica_features.md`). `DATE_COLS`
-e `METADATA_COLS` acompanham a coorte para auditoria, mas nunca entram em `X`.
+base no dicionário de dados real da ficha de notificação de chikungunya do SINAN e numa
+revisão bibliográfica dos fatores de risco já associados a óbito por chikungunya.
+`DATE_COLS` e `METADATA_COLS` acompanham a coorte para auditoria, mas nunca entram em `X`.
 """
 
 from pathlib import Path

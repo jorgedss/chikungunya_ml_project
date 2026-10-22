@@ -51,18 +51,18 @@ Etapas (também executáveis individualmente):
 
 ## Notebooks
 
-- **01_diagnostics/** — qualidade e consistência das datas, diagnóstico de ausência de
+- **01_diagnostics/** - qualidade e consistência das datas, diagnóstico de ausência de
   dados por campo e por desfecho, e padrão de preenchimento por bloco da ficha.
-- **02_models/** — um único notebook treina e avalia os 5 algoritmos (Regressão Logística,
+- **02_models/** - um único notebook treina e avalia os 5 algoritmos (Regressão Logística,
   Árvore de Decisão, Random Forest, XGBoost, LightGBM) lado a lado: pré-processamento,
   validação temporal (*expanding window*), otimização de hiperparâmetros (GridSearchCV),
   treino final e avaliação.
-- **03_evaluation/** — um notebook por tipo de análise, cobrindo os 5 modelos: comparação e
+- **03_evaluation/** - um notebook por tipo de análise, cobrindo os 5 modelos: comparação e
   bootstrap para intervalos de confiança 95%, calibração (Brier Score/BSS), e validação
   externa no ano de 2025.
-- **04_interpretation/** — importância das variáveis dos cinco modelos: MDI/ganho para os
+- **04_interpretation/** - importância das variáveis dos cinco modelos: MDI/ganho para os
   modelos de árvore e coeficientes/razões de chances para a Regressão Logística.
-- **05_fairness/** — análise de equidade estratificada por sexo, raça/cor e faixa etária,
+- **05_fairness/** - análise de equidade estratificada por sexo, raça/cor e faixa etária,
   com intervalo de confiança bootstrap (IC 95%) sobre o ΔAUPRC/ΔROC-AUC de cada subgrupo,
   para distinguir disparidade real de ruído amostral.
 

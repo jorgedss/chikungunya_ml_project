@@ -15,5 +15,6 @@ dependencies = [
     "pysus[datasus]==1.0.1",
     "scikit-learn==1.8.0",
     "scipy==1.17.1",
+    "shap>=0.54.1",
     "xgboost==3.2.0",
 ]
